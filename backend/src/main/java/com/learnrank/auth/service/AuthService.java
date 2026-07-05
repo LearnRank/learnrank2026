@@ -10,6 +10,7 @@ import com.learnrank.auth.dto.UserResponse;
 import com.learnrank.common.exception.DuplicateEmailException;
 import com.learnrank.common.exception.InvalidCredentialsException;
 import com.learnrank.common.security.JwtService;
+import com.learnrank.common.security.RefreshTokenService;
 import com.learnrank.user.entity.UserEntity;
 import com.learnrank.user.repository.UserRepository;
 
@@ -24,6 +25,8 @@ public class AuthService {
 	private final PasswordEncoder passwordEncoder;
 	
 	private final JwtService jwtService;
+	
+	private final RefreshTokenService refreshTokenService;
 	
 	@Transactional
 	public UserResponse register(ResgisterRequest request) {
@@ -42,15 +45,19 @@ public class AuthService {
 	
 	
 	public AuthResponse login(LoginRequest request) {
-		UserEntity user = userRepository.findByEmail(request.email())
-				.orElseThrow(InvalidCredentialsException::new);
-	   
-		if(user.getPasswordHash() == null || !passwordEncoder.matches(request.password(), user.getPasswordHash())) {
-		throw new InvalidCredentialsException();	
-		}
-	
-		String accessToken = jwtService.generateAccessToken(user);
-		String refreshToken = jwtService.generateRefreshToken(user);
-		return new AuthResponse(accessToken, refreshToken, 3600);
+	    UserEntity user = userRepository.findByEmail(request.email())
+	            .orElseThrow(InvalidCredentialsException::new);
+
+	    if (user.getPasswordHash() == null
+	            || !passwordEncoder.matches(request.password(), user.getPasswordHash())) {
+	        throw new InvalidCredentialsException();
+	    }
+
+	    String accessToken = jwtService.generateAccessToken(user);
+	    String refreshToken = jwtService.generateRefreshToken(user);
+	    refreshTokenService.store(user.getId(), refreshToken);   // don't forget this from LR-020 Section 12
+
+	    return new AuthResponse(accessToken, refreshToken, 3600,
+	            user.getId(), user.getFullName(), user.getRole().name());
 	}
 }

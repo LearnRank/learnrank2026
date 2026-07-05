@@ -1,0 +1,68 @@
+<div class="profile-page">
+
+  <section class="profile-card">
+    <h2>Your Profile</h2>
+    <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="profile-form">
+      <div class="form-field">
+        <label for="fullName">Full Name</label>
+        <input id="fullName" type="text" formControlName="fullName" />
+      </div>
+
+      <div class="form-field">
+        <label for="experienceLevel">Experience Level</label>
+        <select id="experienceLevel" formControlName="experienceLevel">
+          <option value="">Select...</option>
+          <option value="BEGINNER">Beginner</option>
+          <option value="INTERMEDIATE">Intermediate</option>
+          <option value="ADVANCED">Advanced</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="learningGoals">Learning Goals</label>
+        <textarea id="learningGoals" formControlName="learningGoals" rows="3"></textarea>
+      </div>
+
+      @if (profileMessage()) {
+        <p class="form-message">{{ profileMessage() }}</p>
+      }
+
+      <button type="submit" class="btn-primary" [disabled]="profileForm.invalid">Save Profile</button>
+    </form>
+  </section>
+
+  <section class="profile-card">
+    <h2>Change Password</h2>
+    <form [formGroup]="passwordForm" (ngSubmit)="changePassword()" class="profile-form">
+      <div class="form-field">
+        <label for="currentPassword">Current Password</label>
+        <input id="currentPassword" type="password" formControlName="currentPassword" />
+      </div>
+
+      <div class="form-field">
+        <label for="newPassword">New Password</label>
+        <input id="newPassword" type="password" formControlName="newPassword" />
+      </div>
+
+      @if (passwordMessage()) {
+        <p class="form-message">{{ passwordMessage() }}</p>
+      }
+
+      <button type="submit" class="btn-primary" [disabled]="passwordForm.invalid">Change Password</button>
+    </form>
+  </section>
+
+  <section class="profile-card danger-zone">
+    <h2>Delete Account</h2>
+    @if (!showDeleteConfirm()) {
+      <button type="button" class="btn-danger" (click)="showDeleteConfirm.set(true)">Delete My Account</button>
+    } @else {
+      <p>This cannot be undone. Are you sure?</p>
+      <div class="confirm-actions">
+        <button type="button" class="btn-danger" (click)="confirmDelete()">Yes, Delete</button>
+        <button type="button" class="btn-secondary" (click)="showDeleteConfirm.set(false)">Cancel</button>
+      </div>
+    }
+  </section>
+
+</div>

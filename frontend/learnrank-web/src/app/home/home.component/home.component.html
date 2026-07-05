@@ -1,0 +1,14 @@
+<div class="home-placeholder">
+  <h1>Welcome to LearnRank</h1>
+
+  @if (authService.isLoggedIn()) {
+    <p>You're logged in. The real Home page (search, trending topics) comes in Sprint 3.</p>
+    <a routerLink="/profile">Go to your profile</a>
+  } @else {
+    <p>Find and rate the best learning resources, ranked by people who actually used them.</p>
+    <div class="home-actions">
+      <a routerLink="/login">Log In</a>
+      <a routerLink="/register">Register</a>
+    </div>
+  }
+</div>

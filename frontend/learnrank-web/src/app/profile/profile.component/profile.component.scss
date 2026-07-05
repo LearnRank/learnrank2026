@@ -1,0 +1,40 @@
+.profile-page {
+  display: flex; flex-direction: column; gap: 20px;
+  max-width: 560px; margin: 0 auto; padding: 16px; box-sizing: border-box;
+}
+
+.profile-card {
+  background: #fff; border-radius: 12px; padding: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  h2 { font-size: 1.1rem; margin-bottom: 16px; }
+}
+
+.profile-form { display: flex; flex-direction: column; gap: 14px; }
+
+.form-field {
+  display: flex; flex-direction: column; gap: 4px;
+  label { font-size: 0.85rem; font-weight: 600; }
+  input, select, textarea {
+    height: 44px; padding: 0 12px; border: 1px solid #ccc; border-radius: 8px;
+    font-size: 1rem;   // prevents iOS Safari auto-zoom on focus
+    width: 100%; box-sizing: border-box; font-family: inherit;
+    &:focus { outline: none; border-color: #2E74B5; }
+  }
+  textarea { height: auto; padding: 10px 12px; resize: vertical; }
+}
+
+.form-message { font-size: 0.85rem; color: #2E74B5; }
+
+.btn-primary, .btn-danger, .btn-secondary {
+  height: 44px; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;
+}
+.btn-primary { background: #2E74B5; color: #fff; &:disabled { background: #a9c4dd; } }
+.btn-danger { background: #c0392b; color: #fff; }
+.btn-secondary { background: #eee; color: #333; }
+.danger-zone { border: 1px solid #f2c6c2; }
+.confirm-actions { display: flex; gap: 10px; margin-top: 10px; }
+
+// Tablet/desktop — allow room for a wider layout
+@media (min-width: 768px) {
+  .profile-page { max-width: 720px; }
+}
